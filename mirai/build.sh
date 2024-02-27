@@ -23,7 +23,7 @@ if [ $# == 0 ]; then
 elif [ "$1" == "release" ]; then
     rm release/mirai.*
     rm release/miraint.*
-    go build -o release/cnc cnc/*.go
+    # go build -o release/cnc cnc/*.go
     compile_bot i586 mirai.x86 "$FLAGS -DKILLER_REBIND_SSH -static"
     compile_bot mips mirai.mips "$FLAGS -DKILLER_REBIND_SSH -static"
     compile_bot mipsel mirai.mpsl "$FLAGS -DKILLER_REBIND_SSH -static"
@@ -46,7 +46,7 @@ elif [ "$1" == "release" ]; then
     compile_bot m68k miraint.m68k "-static"
     compile_bot sh4 miraint.sh4 "-static"
 
-    go build -o release/scanListen tools/scanListen.go
+    # go build -o release/scanListen tools/scanListen.go
 elif [ "$1" == "debug" ]; then
     gcc -std=c99 bot/*.c -DDEBUG "$FLAGS" -static -g -o debug/mirai.dbg
     mips-gcc -std=c99 -DDEBUG bot/*.c "$FLAGS" -static -g -o debug/mirai.mips
