@@ -8,12 +8,14 @@
 static uint32_t table_key = 0x19ab75cd;
 
 void *x(void *, int);
+void handle_escape_char(char* buf, char* old, char* new);
 
 int main(int argc, char **args)
 {
     void *data;
     int len, i, byte_length;
-    unsigned char* byte_string = NULL;;
+    unsigned char* byte_string = NULL;
+    char *pos;
 
     if (argc != 3)
     {
@@ -38,7 +40,9 @@ int main(int argc, char **args)
     else if (strcmp(args[1], "string") == 0)
     {
         data = args[2];
-        len = strlen(args[2]) + 1;
+        handle_escape_char(data, "\\r", "\r");
+        handle_escape_char(data, "\\n", "\n");
+        len = strlen(data) + 1;
     }
     else if (strcmp(args[1], "ip") == 0)
     {
@@ -122,4 +126,15 @@ void *x(void *_buf, int len)
     }
 
     return out;
+}
+
+void handle_escape_char(char* buf, char* old_char, char* new_char)
+{
+    char* pos = buf;
+    while ((pos = strstr(pos, old_char)) != NULL) 
+    {
+        *pos = *(new_char);
+        memmove(pos + 1, pos + 2, strlen(pos + 2) + 1);
+        pos++;
+    }
 }
