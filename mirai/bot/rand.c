@@ -55,7 +55,7 @@ void rand_str(char *str, int len) // Generate random buffer (not alphanumeric!) 
 
 void rand_alphastr(uint8_t *str, int len) // Random alphanumeric string, more expensive than rand_str
 {
-    const char alphaset[] = "abcdefghijklmnopqrstuvw012345678";
+    const char alphaset[] = "56dklmnopefgvw01234hi78abcjqrstu";
 
     while (len > 0)
     {

