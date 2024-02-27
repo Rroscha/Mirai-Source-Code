@@ -270,6 +270,29 @@ char *util_fdgets(char *buffer, int buffer_size, int fd)
     return total == 0 ? NULL : buffer;
 }
 
+void* util_decrypt(void* _buf, int len)
+{
+    unsigned char *buf = (char *)_buf, *out = malloc(len);
+    int i;
+    uint8_t k1 = table_key & 0xff,
+            k2 = (table_key >> 8) & 0xff,
+            k3 = (table_key >> 16) & 0xff,
+            k4 = (table_key >> 24) & 0xff;
+
+    for (i = 0; i < len; i++)
+    {
+        char tmp = buf[i] ^ k1;
+
+        tmp ^= k2;
+        tmp ^= k3;
+        tmp ^= k4;
+
+        out[i] = tmp;
+    }
+
+    return out;
+}
+
 static inline int util_isupper(char c)
 {
     return (c >= 'A' && c <= 'Z');
