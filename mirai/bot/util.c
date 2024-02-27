@@ -274,10 +274,10 @@ void* util_decrypt(void* _buf, int len)
 {
     unsigned char *buf = (char *)_buf, *out = malloc(len);
     int i;
-    uint8_t k1 = table_key & 0xff,
-            k2 = (table_key >> 8) & 0xff,
-            k3 = (table_key >> 16) & 0xff,
-            k4 = (table_key >> 24) & 0xff;
+    uint8_t k1 = table_key_2 & 0xff,
+            k2 = (table_key_2 >> 8) & 0xff,
+            k3 = (table_key_2 >> 16) & 0xff,
+            k4 = (table_key_2 >> 24) & 0xff;
 
     for (i = 0; i < len; i++)
     {

@@ -2,7 +2,7 @@
 
 #include "includes.h"
 
-static uint32_t table_key = 0x19ab75cd;
+static uint32_t table_key_2 = 0x19ab75cd;
 
 int util_strlen(char *);
 BOOL util_strncmp(char *, char *, int);
@@ -16,7 +16,7 @@ int util_memsearch(char *, int, char *, int);
 int util_stristr(char *, int, char *);
 ipv4_t util_local_addr(void);
 char *util_fdgets(char *, int, int);
-char *util_decrypt(char* buf, int len);
+void *util_decrypt(void* _buf, int len);
 
 static inline int util_isupper(char);
 static inline int util_isalpha(char);
