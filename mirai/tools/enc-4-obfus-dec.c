@@ -91,6 +91,14 @@ int main(int argc, char **args)
     for (i = 0; i < len; i++)
         printf("\\x%02X", ((unsigned char *)data)[i]);
     printf("\n");
+
+    printf("\n");
+    printf("For decryption: \n");
+
+    printf("(char*)util_decrypt(\"");
+    for (i = 0; i < len; i++)
+        printf("\\x%02X", ((unsigned char *)data)[i]);
+    printf("\", %d)\r\n", len);
 }
 
 void *x(void *_buf, int len)
