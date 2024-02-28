@@ -2,3 +2,4 @@ cross-compile-bin
 mirai/release
 mirai/tools/bins
 jupyter
+mirai/release-no-obfuscation
