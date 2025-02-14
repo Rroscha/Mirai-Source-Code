@@ -4,3 +4,4 @@ mirai/tools/bins
 jupyter
 mirai/release-no-obfuscation
 mirai/release-original-no-obfuscation
+mirai/release-no-obfuscation-no-stripped
